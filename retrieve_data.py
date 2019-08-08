@@ -10,6 +10,9 @@ import datetime
 from tqdm import tqdm
 from collections import OrderedDict
 
+import sys
+import argparse
+
 
 ################################################## UTILITY/GETTER FUNCTIONS #######################################################
 
@@ -79,9 +82,11 @@ def get_h2h_vs_pitcher(batter_id, opponent_id):
                             'obp_h2h': 0.0, 'ops_h2h': 0.0, 'slg_h2h': 0.0})
     
     # Only get rate stats vs pitcher
-    filtered = {k + "_h2h":float(v) for k, v in batting_stats.items() 
+    filtered = {(k + "_h2h"):(float(v) if v != "-.--" and v != ".---" else 0.0)
+                for k, v in batting_stats.items() 
                 if type(v) == str 
                 and k != 'stolenBasePercentage'
+                and k != 'atBatsPerHomeRun'
                 or k == 'hits'
                 or k == 'atBats'} 
     
@@ -93,11 +98,16 @@ def batting_past_N_games(N, player_id):
     hydrate = 'stats(group=[hitting],type=[lastXGames],limit={}),currentTeam'.format(N)
     
     params = {'personId': player_id, 'hydrate':hydrate}
-    r = statsapi.get('person',params)
-    batting_stats = r['people'][0]['stats'][0]['splits'][0]['stat']
+    
+    try:
+        r = statsapi.get('person',params)
+        batting_stats = r['people'][0]['stats'][0]['splits'][0]['stat']
+    except (ValueError, KeyError):
+        return {k:v for k, v in (zip(np.arange(5), [0.0]*5))}
     
     # Only get rate stats for past N days
-    filtered = {k + "_p{}G".format(N):float(v) for k, v in batting_stats.items() 
+    filtered = {k + "_p{}G".format(N):(float(v) if v != '.---' and v != '-.--' else 0.0)
+                for k, v in batting_stats.items() 
                 if type(v) == str 
                 and k != 'stolenBasePercentage'
                 or k == 'hits'} 
@@ -107,14 +117,21 @@ def batting_past_N_games(N, player_id):
     return filtered
 
 def pitching_past_N_games(N, player_id):
+    if player_id == 547989:
+        return {k:v for k, v in (zip(np.arange(15), [0.0]*15))}
+    
     hydrate = 'stats(group=[pitching],type=[lastXGames],limit={}),currentTeam'.format(N)
     
     params = {'personId': player_id, 'hydrate':hydrate}
-    r = statsapi.get('person',params)
+    try:
+        r = statsapi.get('person',params)
+    except ValueError:              # The request fails if a pitcher is making their debut
+        return {k:v for k, v in (zip(np.arange(15), [0.0]*15))}
+    
     pitching_stats = r['people'][0]['stats'][0]['splits'][0]['stat']
     
     # Only get rate stats for past N days
-    filtered = {(k + "_p{}G".format(N)):(float(v) if v != '.---' else 0.0) 
+    filtered = {(k + "_p{}G".format(N)):(float(v) if v != '.---' and v != '-.--' else 0.0)
                 for k, v in pitching_stats.items() 
                 if type(v) == str} 
     
@@ -163,77 +180,106 @@ def convert_to_FL_format(name):
 
 def generate_hits_data(generate_train_data=True):
 
-	yesterday = (datetime.datetime.today() - datetime.timedelta(days = 1)).strftime("%m/%d/%Y")
-	today = datetime.datetime.today().strftime("%m/%d/%Y")
+    yesterday = (datetime.datetime.today() - datetime.timedelta(days = 1)).strftime("%m/%d/%Y")
+    today = datetime.datetime.today().strftime("%m/%d/%Y")
 
-	###############################################################
-	# 
-	# Change GENERATE_TRAIN_DATA to False to generate 
-	# data for today's games instead, which won't have 
-	# labels included for whether or not the player
-	# got a hit
-	#
-	GENERATE_TRAIN_DATA = generate_train_data
-	#
-	################################################################
+    ###############################################################
+    # 
+    # Change GENERATE_TRAIN_DATA to False to generate 
+    # data for today's games instead, which won't have 
+    # labels included for whether or not the player
+    # got a hit
+    #
+    GENERATE_TRAIN_DATA = generate_train_data
+    #
+    ################################################################
 
-	gameday = yesterday
-	if not GENERATE_TRAIN_DATA:
-	    gameday = today
-	    
-	rows_list = []
-	for game in tqdm(statsapi.schedule(gameday)):
-	    
-	#     if game['status'] not in ['In Progress', 'Final']:
-	#         continue
-	    
-	    game_id = game['game_id']
-	    away_id = game['away_id']
-	    home_id = game['home_id']
-	    home_player_list = get_player_list(home_id)
-	    away_player_list = get_player_list(away_id)
-	    
-	    away_prob_Pname = convert_to_FL_format(game['away_probable_pitcher'])
-	    home_prob_Pname = convert_to_FL_format(game['home_probable_pitcher'])
-	    
-	    away_probable_pitcher = get_player_id_from_name(away_prob_Pname)
-	    home_probable_pitcher = get_player_id_from_name(home_prob_Pname)
-	    
-	    away_pitcher_p5G = pitching_past_N_games(5, away_probable_pitcher)
-	    home_pitcher_p5G = pitching_past_N_games(5, home_probable_pitcher)
-	    
-	    for player in home_player_list:
-	        player_id = get_player_id_from_name(player)
-	        try:
-	            new_row = list(get_current_season_stats(player).values())
-	            new_row += list(batting_past_N_games(7, player_id).values())
-	            new_row += list(batting_past_N_games(15, player_id).values())
-	            new_row += list(away_pitcher_p5G.values())
-	            new_row += list(get_h2h_vs_pitcher(player_id, away_probable_pitcher).values())
-	            new_row.append(float(check_pitcher_batter_opposite_hand(batter_id=player_id, 
-	                                                                  pitcher_id=away_probable_pitcher)))
-	            if GENERATE_TRAIN_DATA:
-	                new_row.append(player_got_hit_in_game(player_id, game_id, 'home'))
-	                
-	            rows_list.append(new_row)
-	        except (ValueError, IndexError):
-	            continue
+    gameday = yesterday
+    if not GENERATE_TRAIN_DATA:
+        gameday = today
 
-	    for player in away_player_list:
-	        player_id = get_player_id_from_name(player)
-	        try:
-	            new_row = list(get_current_season_stats(player).values())
-	            new_row += list(batting_past_N_games(7, player_id).values())
-	            new_row += list(batting_past_N_games(15, player_id).values())
-	            new_row += list(home_pitcher_p5G.values())
-	            new_row += list(get_h2h_vs_pitcher(player_id, home_probable_pitcher).values())
-	            new_row.append(float(check_pitcher_batter_opposite_hand(batter_id=player_id, 
-	                                                                  pitcher_id=away_probable_pitcher)))
-	            if GENERATE_TRAIN_DATA:
-	                new_row.append(player_got_hit_in_game(player_id, game_id, 'away'))
-	                
-	            rows_list.append(new_row)
-	        except (ValueError, IndexError):
-	            continue
+    rows_list = []
+    for game in tqdm(statsapi.schedule(gameday)):
 
+    #     if game['status'] not in ['In Progress', 'Final']:
+    #         continue
 
+        game_id = game['game_id']
+        away_id = game['away_id']
+        home_id = game['home_id']
+        home_player_list = get_player_list(home_id)
+        away_player_list = get_player_list(away_id)
+
+        away_prob_Pname = convert_to_FL_format(game['away_probable_pitcher'])
+        home_prob_Pname = convert_to_FL_format(game['home_probable_pitcher'])
+
+        away_probable_pitcher = get_player_id_from_name(away_prob_Pname)
+        home_probable_pitcher = get_player_id_from_name(home_prob_Pname)
+
+        away_pitcher_p5G = pitching_past_N_games(5, away_probable_pitcher)
+        home_pitcher_p5G = pitching_past_N_games(5, home_probable_pitcher)
+
+        for player in home_player_list:
+    #         print(player)
+            player_id = get_player_id_from_name(player)
+            try:
+                new_row = list(get_current_season_stats(player).values())
+                new_row += list(batting_past_N_games(7, player_id).values())
+                new_row += list(batting_past_N_games(15, player_id).values())
+                new_row += list(away_pitcher_p5G.values())
+                new_row += list(get_h2h_vs_pitcher(player_id, away_probable_pitcher).values())
+                new_row.append(float(check_pitcher_batter_opposite_hand(batter_id=player_id, 
+                                                                      pitcher_id=away_probable_pitcher)))
+                if GENERATE_TRAIN_DATA:
+                    new_row.append(player_got_hit_in_game(player_id, game_id, 'home'))
+
+                rows_list.append(new_row)
+            except (ValueError, IndexError):
+                continue
+
+        for player in away_player_list:
+    #         print(player)
+            player_id = get_player_id_from_name(player)
+            try:
+                new_row = list(get_current_season_stats(player).values())
+                new_row += list(batting_past_N_games(7, player_id).values())
+                new_row += list(batting_past_N_games(15, player_id).values())
+                new_row += list(home_pitcher_p5G.values())
+                new_row += list(get_h2h_vs_pitcher(player_id, home_probable_pitcher).values())
+                new_row.append(float(check_pitcher_batter_opposite_hand(batter_id=player_id, 
+                                                                      pitcher_id=away_probable_pitcher)))
+                if GENERATE_TRAIN_DATA:
+                    new_row.append(player_got_hit_in_game(player_id, game_id, 'away'))
+
+                rows_list.append(new_row)
+            except (ValueError, IndexError):
+                continue
+        
+        sample_hitter = get_player_id_from_name("Kevin Pillar")
+        sample_pitcher = get_player_id_from_name("Jacob DeGrom")
+        player_stats_columns = list(get_current_season_stats("Kevin Pillar").keys())
+        player_stats_columns += list(batting_past_N_games(7, sample_hitter).keys())
+        player_stats_columns += list(batting_past_N_games(15, sample_hitter).keys())
+        player_stats_columns += list(pitching_past_N_games(5, sample_pitcher).keys())
+        player_stats_columns += list(get_h2h_vs_pitcher(sample_hitter, sample_pitcher).keys())
+
+        if GENERATE_TRAIN_DATA:
+            player_stats_columns += ['pitcher_hitter_opposite_hand', 'player_got_hit']
+        else:
+            player_stats_columns += ['pitcher_hitter_opposite_hand']
+        
+        player_stats_table = pd.DataFrame(data=rows_list, columns=player_stats_columns)
+        file_to_generate = "player_stats_{}.csv".format(gameday.replace("/", "_"))
+        player_stats_table.to_csv(file_to_generate, index=False)
+        print("Finished generating file: {}".format(file_to_generate))
+
+arg_parser = argparse.ArgumentParser(description="Run to generate training data yesterday's games and test data from today's games")
+arg_parser.add_argument("--train", help = "Use if you want to generate training data only")
+args = arg_parser.parse_args()
+
+if args.train:
+    generate_hits_data()
+    generate_hits_data(generate_train_data=False)
+else:
+    generate_hits_data()
+    
