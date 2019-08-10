@@ -82,7 +82,7 @@ def get_h2h_vs_pitcher(batter_id, opponent_id):
                             'obp_h2h': 0.0, 'ops_h2h': 0.0, 'slg_h2h': 0.0})
     
     # Only get rate stats vs pitcher
-    filtered = {(k + "_h2h"):(float(v) if v != "-.--" and v != ".---" else 0.0)
+    filtered = {(k + "_h2h"):(float(v) if v != "-.--" and v != ".---" and v != "*.**" else 0.0)
                 for k, v in batting_stats.items() 
                 if type(v) == str 
                 and k != 'stolenBasePercentage'
@@ -106,7 +106,7 @@ def batting_past_N_games(N, player_id):
         return {k:v for k, v in (zip(np.arange(5), [0.0]*5))}
     
     # Only get rate stats for past N days
-    filtered = {k + "_p{}G".format(N):(float(v) if v != '.---' and v != '-.--' else 0.0)
+    filtered = {k + "_p{}G".format(N):(float(v) if v != v != "-.--" and v != ".---" and v != "*.**" else 0.0)
                 for k, v in batting_stats.items() 
                 if type(v) == str 
                 and k != 'stolenBasePercentage'
@@ -131,7 +131,7 @@ def pitching_past_N_games(N, player_id):
     pitching_stats = r['people'][0]['stats'][0]['splits'][0]['stat']
     
     # Only get rate stats for past N days
-    filtered = {(k + "_p{}G".format(N)):(float(v) if v != '.---' and v != '-.--' else 0.0)
+    filtered = {(k + "_p{}G".format(N)):(float(v) if v != "-.--" and v != ".---" and v != "*.**" else 0.0)
                 for k, v in pitching_stats.items() 
                 if type(v) == str} 
     
@@ -255,30 +255,33 @@ def generate_hits_data(generate_train_data=True):
             except (ValueError, IndexError):
                 continue
         
-        sample_hitter = get_player_id_from_name("Kevin Pillar")
-        sample_pitcher = get_player_id_from_name("Jacob DeGrom")
-        player_stats_columns = list(get_current_season_stats("Kevin Pillar").keys())
-        player_stats_columns += list(batting_past_N_games(7, sample_hitter).keys())
-        player_stats_columns += list(batting_past_N_games(15, sample_hitter).keys())
-        player_stats_columns += list(pitching_past_N_games(5, sample_pitcher).keys())
-        player_stats_columns += list(get_h2h_vs_pitcher(sample_hitter, sample_pitcher).keys())
+    sample_hitter = get_player_id_from_name("Kevin Pillar")
+    sample_pitcher = get_player_id_from_name("Jacob DeGrom")
+    player_stats_columns = list(get_current_season_stats("Kevin Pillar").keys())
+    player_stats_columns += list(batting_past_N_games(7, sample_hitter).keys())
+    player_stats_columns += list(batting_past_N_games(15, sample_hitter).keys())
+    player_stats_columns += list(pitching_past_N_games(5, sample_pitcher).keys())
+    player_stats_columns += list(get_h2h_vs_pitcher(sample_hitter, sample_pitcher).keys())
 
-        if GENERATE_TRAIN_DATA:
-            player_stats_columns += ['pitcher_hitter_opposite_hand', 'player_got_hit']
-        else:
-            player_stats_columns += ['pitcher_hitter_opposite_hand']
-        
-        player_stats_table = pd.DataFrame(data=rows_list, columns=player_stats_columns)
-        file_to_generate = "player_stats_{}.csv".format(gameday.replace("/", "_"))
-        player_stats_table.to_csv(file_to_generate, index=False)
-        print("Finished generating file: {}".format(file_to_generate))
+    if GENERATE_TRAIN_DATA:
+        player_stats_columns += ['pitcher_hitter_opposite_hand', 'player_got_hit']
+    else:
+        player_stats_columns += ['pitcher_hitter_opposite_hand']
+
+    player_stats_table = pd.DataFrame(data=rows_list, columns=player_stats_columns)
+    file_to_generate = "data/player_stats/player_stats_{}.csv".format(gameday.replace("/", "_"))
+    player_stats_table.to_csv(file_to_generate, index=False)
+    print("Finished generating file: {}".format(file_to_generate))
 
 arg_parser = argparse.ArgumentParser(description="Run to generate training data from yesterday's games and test data from today's games")
-arg_parser.add_argument("--train", help = "Use if you want to generate training data only")
+arg_parser.add_argument("--train", help = "Use if you want to generate training data only", action="store_true")
+arg_parser.add_argument("--test", help = "Use if you want to generate test data only", action="store_true")
 args = arg_parser.parse_args()
 
 if args.train:
     generate_hits_data()
+elif args.test:
+    generate_hits_data(generate_train_data=False)
 else:
     generate_hits_data()
     generate_hits_data(generate_train_data=False)
