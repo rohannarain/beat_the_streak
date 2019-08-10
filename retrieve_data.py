@@ -273,13 +273,13 @@ def generate_hits_data(generate_train_data=True):
         player_stats_table.to_csv(file_to_generate, index=False)
         print("Finished generating file: {}".format(file_to_generate))
 
-arg_parser = argparse.ArgumentParser(description="Run to generate training data yesterday's games and test data from today's games")
+arg_parser = argparse.ArgumentParser(description="Run to generate training data from yesterday's games and test data from today's games")
 arg_parser.add_argument("--train", help = "Use if you want to generate training data only")
 args = arg_parser.parse_args()
 
 if args.train:
     generate_hits_data()
-    generate_hits_data(generate_train_data=False)
 else:
     generate_hits_data()
+    generate_hits_data(generate_train_data=False)
     

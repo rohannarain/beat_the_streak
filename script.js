@@ -1,7 +1,17 @@
-d3.text("https://raw.githubusercontent.com/rohannarain/beat_the_streak/master/predictions_07_28_2019.csv", function(data) {
+$(document).ready(function(){
+  $("body").height($(window).height());
+})
+
+var months = ['January','February','March','April','May','June','July',
+'August','September','October','November','December']; 
+var today = new Date();
+today.setTime(today.getTime());
+document.getElementById("span-date").innerHTML = months[today.getMonth()] + " " + today.getDate()+ ", " + today.getFullYear();
+
+d3.text("https://raw.githubusercontent.com/rohannarain/beat_the_streak/master/predictions_08_08_2019.csv", function(data) {
     var parsedCSV = d3.csv.parseRows(data);
 
-    var container = d3.select("body")
+    var container = d3.select("header")
         .append("table")
 
     .selectAll("tr")

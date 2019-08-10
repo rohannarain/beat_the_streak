@@ -5,7 +5,7 @@ $(document).ready(function(){
 d3.text("https://raw.githubusercontent.com/rohannarain/beat_the_streak/master/predictions_07_28_2019.csv", function(data) {
     var parsedCSV = d3.csv.parseRows(data);
 
-    var container = d3.select("body")
+    var container = d3.select("header")
         .append("table")
 
     .selectAll("tr")
