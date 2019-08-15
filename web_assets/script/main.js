@@ -8,7 +8,7 @@ var today = new Date();
 today.setTime(today.getTime());
 document.getElementById("span-date").innerHTML = months[today.getMonth()] + " " + today.getDate()+ ", " + today.getFullYear();
 
-d3.text("https://raw.githubusercontent.com/rohannarain/beat_the_streak/master/data/predictions/predictions_08_10_2019.csv", function(data) {
+d3.text("https://raw.githubusercontent.com/rohannarain/beat_the_streak/master/data/predictions/predictions_08_15_2019.csv", function(data) {
     var parsedCSV = d3.csv.parseRows(data);
 
     var container = d3.select("header")
