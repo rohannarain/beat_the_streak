@@ -17,9 +17,9 @@ if (fileDate < 10) {
 }
 
 var fileYear = today.getFullYear();
+var getURL = "https://raw.githubusercontent.com/rohannarain/beat_the_streak/master/data/predictions/predictions_" + fileMonth + "_" + fileDate + "_" + fileYear + ".csv" 
 
-d3.text("https://raw.githubusercontent.com/rohannarain/beat_the_streak/master/data/predictions/predictions_${fileMonth}_${fileDate}_${fileYear}.csv", 
-    function(data) {
+d3.text(getURL, function(data) {
     var parsedCSV = d3.csv.parseRows(data);
 
     var container = d3.select("header")
