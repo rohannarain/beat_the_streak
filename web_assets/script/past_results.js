@@ -50,6 +50,8 @@ dropdownItem.on("click", function() {
     header.selectAll("table").remove();
     header.select("#error-message").remove();
 
+    d3.select("#dropdownMenuButton").text(dateToRetrieve)
+
     d3.text(getURL, function(data) {
         try {
             var parsedCSV = d3.csv.parseRows(data);
