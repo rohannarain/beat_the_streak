@@ -283,7 +283,7 @@ def generate_yesterdays_results():
     pred_yest = pd.read_csv("data/predictions/predictions_{}.csv".format(yesterday.replace("/", "_")))
     stats_yest = pd.read_csv("data/player_stats/player_stats_{}.csv".format(yesterday.replace("/", "_")))
     
-    past_results = stats_yest[stats_yest['Name'].isin(pred_yest['name'])].loc[:, ['Name', 'player_got_hit']]
+    past_results = stats_yest[stats_yest['Name'].isin(pred_yest['Name'])].loc[:, ['Name', 'player_got_hit']]
     past_results['player_got_hit'] = past_results['player_got_hit'].apply(lambda x: "Yes" if x == 1.0 else "No")
     past_results = past_results.append({'Name': 'Overall Accuracy', 
                                         'player_got_hit': sum(past_results1['player_got_hit'] == 'Yes') / 10}, 
