@@ -26,7 +26,7 @@ d3.text(getURL, function(data) {
 
     var container = d3.select("header")
         .append("table")
-        .attr("class", "table")
+        // .attr("class", "table")
 
     .selectAll("tr")
         .data(parsedCSV).enter()

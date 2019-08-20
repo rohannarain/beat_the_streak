@@ -13,6 +13,10 @@ from collections import OrderedDict
 import sys
 import argparse
 
+################################################## GLOBAL VARIABLES ###############################################################
+
+yesterday = (datetime.datetime.today() - datetime.timedelta(days = 1)).strftime("%m/%d/%Y")
+today = datetime.datetime.today().strftime("%m/%d/%Y")
 
 ################################################## UTILITY/GETTER FUNCTIONS #######################################################
 
@@ -180,9 +184,6 @@ def convert_to_FL_format(name):
 
 def generate_hits_data(generate_train_data=True):
 
-    yesterday = (datetime.datetime.today() - datetime.timedelta(days = 1)).strftime("%m/%d/%Y")
-    today = datetime.datetime.today().strftime("%m/%d/%Y")
-
     ###############################################################
     # 
     # Change GENERATE_TRAIN_DATA to False to generate 
@@ -201,9 +202,6 @@ def generate_hits_data(generate_train_data=True):
     rows_list = []
     for game in tqdm(statsapi.schedule(gameday)):
 
-    #     if game['status'] not in ['In Progress', 'Final']:
-    #         continue
-
         game_id = game['game_id']
         away_id = game['away_id']
         home_id = game['home_id']
@@ -220,7 +218,6 @@ def generate_hits_data(generate_train_data=True):
         home_pitcher_p5G = pitching_past_N_games(5, home_probable_pitcher)
 
         for player in home_player_list:
-    #         print(player)
             player_id = get_player_id_from_name(player)
             try:
                 new_row = list(get_current_season_stats(player).values())
@@ -238,7 +235,6 @@ def generate_hits_data(generate_train_data=True):
                 continue
 
         for player in away_player_list:
-    #         print(player)
             player_id = get_player_id_from_name(player)
             try:
                 new_row = list(get_current_season_stats(player).values())
@@ -272,6 +268,20 @@ def generate_hits_data(generate_train_data=True):
     file_to_generate = "data/player_stats/player_stats_{}.csv".format(gameday.replace("/", "_"))
     player_stats_table.to_csv(file_to_generate, index=False)
     print("Finished generating file: {}".format(file_to_generate))
+    
+def generate_yesterdays_results():
+    
+    pred_yest = pd.read_csv("data/predictions/predictions_{}.csv".format(yesterday.replace("/", "_")))
+    stats_yest = pd.read_csv("data/player_stats/player_stats_{}.csv".format(yesterday.replace("/", "_")))
+    
+    past_results = stats_yest[stats_yest['Name'].isin(pred_yest['name'])].loc[:, ['Name', 'player_got_hit']]
+    past_results['player_got_hit'] = past_results['player_got_hit'].apply(lambda x: "Yes" if x == 1.0 else "No")
+    past_results = past_results.append({'Name': 'Overall Accuracy', 
+                                        'player_got_hit': sum(past_results1['player_got_hit'] == 'Yes') / 10}, 
+                                       ignore_index=True)
+    
+    past_results.to_csv("data/past_results/past_results_{}.csv".format(yesterday.replace("/", "_")), index=False)
+    print("Results for {} generated".format(yesterday))
 
 arg_parser = argparse.ArgumentParser(description="Run to generate training data from yesterday's games and test data from today's games")
 arg_parser.add_argument("--train", help = "Use if you want to generate training data only", action="store_true")
@@ -285,4 +295,5 @@ elif args.test:
 else:
     generate_hits_data()
     generate_hits_data(generate_train_data=False)
+    generate_yesterdays_results()
     

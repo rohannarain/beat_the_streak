@@ -70,7 +70,7 @@ print("Finished training!")
 
 from sklearn.ensemble import RandomForestClassifier
 
-print("Finding best hyperparamters for random forests...")
+print("Finding best hyperparameters for random forests...")
 param_grid = [
     {'criterion': ['gini'], 'max_depth': [20], 'min_samples_leaf': [4, 10, 20, 30],
     'n_estimators': [50, 75, 100, 125, 150]}
@@ -120,6 +120,8 @@ predictions = hits_test.take(np.argsort(best_model.predict_proba(data_test)[:, 1
 predictions.columns = ["name", "team_id"]
 predictions["team_name"] = predictions['team_id'].apply(lambda x: statsapi.lookup_team(x)[0]['name'])
 predictions["hit_probability"] = np.sort(rf_classifier.predict_proba(data_test)[:, 1])[::-1][:10]
+predictions.drop(['team_id'], axis=1, inplace=True)
+predictions.columns = ['Name', 'Team', 'Hit Probability']
 predictions.to_csv("data/predictions/predictions_{}.csv".format(today), index=False)
 
 print("Predictions for today: \n", predictions)
