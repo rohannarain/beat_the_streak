@@ -109,7 +109,7 @@ performance = pd.DataFrame([['Logreg', acc_logreg, prec_logreg, rec_logreg, f1_l
              columns=['Model', 'Accuracy', 'Precision', 'Recall', "F1 Score"])
 print("Model performance summary on validation set: \n", performance)
 
-performance.to_csv("data/model_stats/performance_{}.csv".format(today))
+performance.to_csv("data/model_stats/performance_{}.csv".format(today), index=False)
 
 models_dict = {'Logreg': logreg, 'Random Forests': rf_classifier, 'AdaBoost': boosted_dt}
 best_model = models_dict[performance.sort_values('F1 Score', ascending=False).iloc[0]['Model']]
@@ -120,7 +120,7 @@ predictions = hits_test.take(np.argsort(best_model.predict_proba(data_test)[:, 1
 predictions.columns = ["name", "team_id"]
 predictions["team_name"] = predictions['team_id'].apply(lambda x: statsapi.lookup_team(x)[0]['name'])
 predictions["hit_probability"] = np.sort(rf_classifier.predict_proba(data_test)[:, 1])[::-1][:10]
-predictions.to_csv("data/predictions/predictions_{}.csv".format(today))
+predictions.to_csv("data/predictions/predictions_{}.csv".format(today), index=False)
 
 print("Predictions for today: \n", predictions)
 
