@@ -59,6 +59,15 @@ def get_current_season_stats(player_name):
     stats_list = curr_season_stats.split("\n")[1:-2]
     for stat in stats_list:
         stat_name = re.search("[A-Za-z]+", stat).group()
+        
+        # The following if statement is a temporary fix for a bug that appeared 8/20/2019.
+        # For some reason some players (seemingly random) have flyouts attached to their regular season
+        # statistics--this may be because MLB is now putting them in their standard set 
+        # of stats when the API gets called. I'm just going to ignore them until they appear
+        # for every player. 
+        if stat_name == 'flyOuts':
+            continue
+            
         stat_val = re.search("[^:A-Za-z]+", stat).group()
         try:
             stats_dict[stat_name] = float(stat_val)
