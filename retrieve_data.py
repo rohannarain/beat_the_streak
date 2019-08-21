@@ -186,7 +186,7 @@ def batting_past_N_games(N, player_id):
         return {k:v for k, v in (zip(np.arange(5), [0.0]*5))}
     
     # Only get rate stats for past N games
-    filtered = {k + "_p{}G".format(N):(float(v) if v != v != "-.--" and v != ".---" and v != "*.**" else 0.0)
+    filtered = {k + "_p{}G".format(N):(float(v) if v != "-.--" and v != ".---" and v != "*.**" else 0.0)
                 for k, v in batting_stats.items() 
                 if type(v) == str 
                 and k != 'stolenBasePercentage'
