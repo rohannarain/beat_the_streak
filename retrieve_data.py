@@ -451,7 +451,7 @@ def generate_yesterdays_results():
     past_results = stats_yest[stats_yest['Name'].isin(pred_yest['Name'])].loc[:, ['Name', 'player_got_hit']]
     past_results['player_got_hit'] = past_results['player_got_hit'].apply(lambda x: "Yes" if x == 1.0 else "No")
     past_results = past_results.append({'Name': 'Overall Accuracy', 
-                                        'player_got_hit': sum(past_results1['player_got_hit'] == 'Yes') / 10}, 
+                                        'player_got_hit': sum(past_results['player_got_hit'] == 'Yes') / 10}, 
                                        ignore_index=True)
     
     past_results.to_csv("data/past_results/past_results_{}.csv".format(yesterday.replace("/", "_")), index=False)
