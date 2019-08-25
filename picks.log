@@ -136,3 +136,24 @@ Predictions for today:
 7           Ketel Marte  Arizona Diamondbacks         0.798738
 8           Kolten Wong   St. Louis Cardinals         0.792600
 9        Austin Meadows        Tampa Bay Rays         0.791981
+[master 8789762] predictions 08/25/19
+ Committer: Rohan Narain <rohannarain@rohans-mbp-3.attlocal.net>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
+
+    git config --global --edit
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 6 files changed, 759 insertions(+), 363 deletions(-)
+ create mode 100644 data/model_stats/performance_08_25_2019.csv
+ create mode 100644 data/past_results/past_results_08_24_2019.csv
+ rewrite data/player_stats/player_stats_08_24_2019.csv (89%)
+ create mode 100644 data/player_stats/player_stats_08_25_2019.csv
+ create mode 100644 data/predictions/predictions_08_25_2019.csv
+fatal: could not read Username for 'https://github.com': Device not configured
