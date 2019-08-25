@@ -104,3 +104,35 @@ After doing this, you may fix the identity used for this commit with:
 
  1 file changed, 90 insertions(+), 1 deletion(-)
 fatal: could not read Username for 'https://github.com': Device not configured
+  0%|          | 0/15 [00:00<?, ?it/s]  7%|6         | 1/15 [02:55<40:54, 175.33s/it] 13%|#3        | 2/15 [04:21<32:11, 148.60s/it] 20%|##        | 3/15 [05:41<25:36, 128.03s/it] 27%|##6       | 4/15 [07:05<21:02, 114.82s/it] 33%|###3      | 5/15 [08:36<17:55, 107.53s/it] 40%|####      | 6/15 [10:01<15:07, 100.84s/it] 47%|####6     | 7/15 [11:42<13:26, 100.81s/it] 53%|#####3    | 8/15 [12:59<10:57, 93.89s/it]  60%|######    | 9/15 [14:35<09:27, 94.53s/it] 67%|######6   | 10/15 [15:47<07:17, 87.56s/it] 73%|#######3  | 11/15 [17:00<05:33, 83.35s/it] 80%|########  | 12/15 [18:40<04:24, 88.19s/it] 87%|########6 | 13/15 [19:54<02:47, 83.93s/it] 93%|#########3| 14/15 [21:11<01:21, 81.90s/it]100%|##########| 15/15 [22:33<00:00, 82.13s/it]
+  0%|          | 0/15 [00:00<?, ?it/s]  7%|6         | 1/15 [00:43<10:13, 43.85s/it] 13%|#3        | 2/15 [02:02<11:45, 54.23s/it] 20%|##        | 3/15 [02:59<11:02, 55.19s/it] 27%|##6       | 4/15 [03:44<09:34, 52.18s/it] 33%|###3      | 5/15 [05:00<09:52, 59.25s/it] 40%|####      | 6/15 [06:13<09:29, 63.32s/it] 47%|####6     | 7/15 [07:33<09:07, 68.45s/it] 53%|#####3    | 8/15 [08:55<08:27, 72.49s/it] 60%|######    | 9/15 [09:46<06:35, 65.90s/it] 67%|######6   | 10/15 [10:34<05:03, 60.67s/it] 73%|#######3  | 11/15 [11:53<04:24, 66.07s/it] 80%|########  | 12/15 [12:39<02:59, 59.99s/it] 87%|########6 | 13/15 [13:33<01:56, 58.30s/it] 93%|#########3| 14/15 [14:49<01:03, 63.53s/it]100%|##########| 15/15 [15:53<00:00, 63.67s/it]
+Finished generating file: data/player_stats/player_stats_08_24_2019.csv
+Finished generating file: data/player_stats/player_stats_08_25_2019.csv
+Results for 08/24/2019 generated
+Getting data...
+Data retrieved.
+Training logistic regression...
+Finished training!
+Finding best hyperparameters for AdaBoost...
+Training AdaBoost...
+Finished training!
+Finding best hyperparameters for random forests...
+Training random forests...
+Finished training!
+Model performance summary on validation set: 
+             Model  Accuracy  Precision    Recall  F1 Score
+0          Logreg  0.783080   0.774869  0.721951  0.747475
+1  Random Forests  0.789588   0.767327  0.756098  0.761671
+2        AdaBoost  0.774403   0.761658  0.717073  0.738693
+Predictions for today: 
+                    Name                  Team  Hit Probability
+0          Trevor Story      Colorado Rockies         0.843995
+1          Amed Rosario         New York Mets         0.841046
+2          Hunter Pence         Texas Rangers         0.813288
+3      Michael Brantley        Houston Astros         0.813259
+4          Yuli Gurriel        Houston Astros         0.807357
+5  Nicholas Castellanos          Chicago Cubs         0.807016
+6           Jose Altuve        Houston Astros         0.802195
+7           Ketel Marte  Arizona Diamondbacks         0.798738
+8           Kolten Wong   St. Louis Cardinals         0.792600
+9        Austin Meadows        Tampa Bay Rays         0.791981
