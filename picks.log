@@ -189,3 +189,24 @@ Predictions for today:
 7        Mark Canha     Oakland Athletics         0.790652
 8       Aaron Judge      New York Yankees         0.787353
 9  Brandon Crawford  San Francisco Giants         0.784902
+[master 08b03b8] predictions 08/26/19
+ Committer: Rohan Narain <rohannarain@rohans-mbp-3.attlocal.net>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
+
+    git config --global --edit
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 6 files changed, 621 insertions(+), 338 deletions(-)
+ create mode 100644 data/model_stats/performance_08_26_2019.csv
+ create mode 100644 data/past_results/past_results_08_25_2019.csv
+ rewrite data/player_stats/player_stats_08_25_2019.csv (88%)
+ create mode 100644 data/player_stats/player_stats_08_26_2019.csv
+ create mode 100644 data/predictions/predictions_08_26_2019.csv
+fatal: could not read Username for 'https://github.com': Device not configured
