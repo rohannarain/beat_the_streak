@@ -157,3 +157,35 @@ After doing this, you may fix the identity used for this commit with:
  create mode 100644 data/player_stats/player_stats_08_25_2019.csv
  create mode 100644 data/predictions/predictions_08_25_2019.csv
 fatal: could not read Username for 'https://github.com': Device not configured
+  0%|          | 0/15 [00:00<?, ?it/s]  7%|6         | 1/15 [01:00<14:05, 60.43s/it] 13%|#3        | 2/15 [02:03<13:15, 61.16s/it] 20%|##        | 3/15 [03:02<12:06, 60.51s/it] 27%|##6       | 4/15 [04:00<10:59, 59.92s/it] 33%|###3      | 5/15 [04:56<09:46, 58.66s/it] 40%|####      | 6/15 [05:57<08:54, 59.43s/it] 47%|####6     | 7/15 [08:25<11:27, 85.94s/it] 53%|#####3    | 8/15 [09:30<09:16, 79.52s/it] 60%|######    | 9/15 [10:29<07:21, 73.54s/it] 67%|######6   | 10/15 [11:32<05:52, 70.41s/it] 73%|#######3  | 11/15 [12:47<04:46, 71.60s/it] 80%|########  | 12/15 [13:47<03:24, 68.25s/it] 87%|########6 | 13/15 [14:47<02:11, 65.88s/it] 93%|#########3| 14/15 [15:58<01:07, 67.29s/it]100%|##########| 15/15 [17:08<00:00, 67.99s/it]
+  0%|          | 0/8 [00:00<?, ?it/s] 12%|#2        | 1/8 [01:19<09:13, 79.12s/it] 25%|##5       | 2/8 [02:00<06:46, 67.72s/it] 38%|###7      | 3/8 [04:29<07:40, 92.04s/it] 50%|#####     | 4/8 [05:13<05:11, 77.83s/it] 62%|######2   | 5/8 [06:15<03:38, 72.98s/it] 75%|#######5  | 6/8 [07:03<02:11, 65.53s/it] 88%|########7 | 7/8 [08:18<01:08, 68.35s/it]100%|##########| 8/8 [09:25<00:00, 67.93s/it]
+Finished generating file: data/player_stats/player_stats_08_25_2019.csv
+Finished generating file: data/player_stats/player_stats_08_26_2019.csv
+Results for 08/25/2019 generated
+Getting data...
+Data retrieved.
+Training logistic regression...
+Finished training!
+Finding best hyperparameters for AdaBoost...
+Training AdaBoost...
+Finished training!
+Finding best hyperparameters for random forests...
+Training random forests...
+Finished training!
+Model performance summary on validation set: 
+             Model  Accuracy  Precision    Recall  F1 Score
+0          Logreg  0.733189   0.783505  0.652361  0.711944
+1  Random Forests  0.731020   0.771144  0.665236  0.714286
+2        AdaBoost  0.731020   0.765854  0.673820  0.716895
+Predictions for today: 
+                Name                  Team  Hit Probability
+0     Marcus Semien     Oakland Athletics         0.801010
+1       Gio Urshela      New York Yankees         0.800179
+2   Freddie Freeman        Atlanta Braves         0.798702
+3   Whit Merrifield    Kansas City Royals         0.794181
+4  Ronald Acuna Jr.        Atlanta Braves         0.793338
+5      Ozzie Albies        Atlanta Braves         0.791960
+6      Tony Wolters      Colorado Rockies         0.790824
+7        Mark Canha     Oakland Athletics         0.790652
+8       Aaron Judge      New York Yankees         0.787353
+9  Brandon Crawford  San Francisco Giants         0.784902
