@@ -126,3 +126,14 @@ predictions.to_csv("data/predictions/predictions_{}.csv".format(today), index=Fa
 
 print("Predictions for today: \n", predictions)
 
+# Add data for accuracy plot visualization for website
+
+accuracy_plot_data = pd.read_csv("data/plots/accuracy_plot_data.csv")
+new_day = today[:-5]
+latest_overall_acc = max(performance['Accuracy'])
+latest_top10_acc = float(predictions.iloc[-1]['player_got_hit'])
+accuracy_plot_data = accuracy_plot_data.append({"Day": new_day, 
+                           "Overall Accuracy": latest_overall_acc, 
+                           "Top 10 Accuracy": latest_top10_acc}, 
+                          ignore_index=True)
+accuracy_plot_data.to_csv("data/plots/accuracy_plot_data.csv")

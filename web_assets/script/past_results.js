@@ -119,3 +119,23 @@ dropdownItem.on("click", function() {
     });
 });
 
+// from https://www.d3-graph-gallery.com/graph/line_select.html
+
+// set the dimensions and margins of the graph
+// var margin = {top: 10, right: 100, bottom: 45, left: 30},
+//     width = 500 - margin.left - margin.right,
+//     height = 400 - margin.top - margin.bottom;
+
+// // append the svg object to the body of the page
+// var svg = d3.select("#pastResults")
+//   .append("svg")
+//     .attr("width", width + margin.left + margin.right)
+//     .attr("height", height + margin.top + margin.bottom)
+//   .append("g")
+//     .attr("transform",
+//           "translate(" + margin.left + "," + margin.top + ")");
+
+
+
+
+
