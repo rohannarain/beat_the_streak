@@ -215,3 +215,54 @@ fatal: could not read Username for 'https://github.com': Device not configured
 Finished generating file: data/player_stats/player_stats_08_26_2019.csv
 Finished generating file: data/player_stats/player_stats_08_27_2019.csv
 Results for 08/26/2019 generated
+Getting data...
+Data retrieved.
+Training logistic regression...
+Finished training!
+Finding best hyperparameters for AdaBoost...
+Training AdaBoost...
+Finished training!
+Finding best hyperparameters for random forests...
+Training random forests...
+Finished training!
+Model performance summary on validation set: 
+             Model  Accuracy  Precision    Recall  F1 Score
+0          Logreg  0.767896   0.760766  0.736111  0.748235
+1  Random Forests  0.741866   0.713656  0.750000  0.731377
+2        AdaBoost  0.741866   0.727700  0.717593  0.722611
+Predictions for today: 
+               Name                  Team  Hit Probability
+0     Jordy Mercer        Detroit Tigers         0.849568
+1    Victor Robles  Washington Nationals         0.834179
+2     Kevin Newman    Pittsburgh Pirates         0.833173
+3   David Fletcher    Los Angeles Angels         0.828520
+4   Anthony Rendon  Washington Nationals         0.824060
+5  Freddie Freeman        Atlanta Braves         0.822993
+6    Justin Turner   Los Angeles Dodgers         0.822149
+7   Austin Meadows        Tampa Bay Rays         0.818163
+8  Jonathan Lucroy          Chicago Cubs         0.816225
+9    Marcus Semien     Oakland Athletics         0.815331
+Traceback (most recent call last):
+  File "/Users/rohannarain/anaconda3/lib/python3.6/site-packages/pandas/core/indexes/base.py", line 3124, in get_value
+    return libindex.get_value_box(s, key)
+  File "pandas/_libs/index.pyx", line 55, in pandas._libs.index.get_value_box
+  File "pandas/_libs/index.pyx", line 63, in pandas._libs.index.get_value_box
+TypeError: 'str' object cannot be interpreted as an integer
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "train_model.py", line 134, in <module>
+    latest_top10_acc = float(predictions.iloc[-1]['player_got_hit'])
+  File "/Users/rohannarain/anaconda3/lib/python3.6/site-packages/pandas/core/series.py", line 767, in __getitem__
+    result = self.index.get_value(self, key)
+  File "/Users/rohannarain/anaconda3/lib/python3.6/site-packages/pandas/core/indexes/base.py", line 3132, in get_value
+    raise e1
+  File "/Users/rohannarain/anaconda3/lib/python3.6/site-packages/pandas/core/indexes/base.py", line 3118, in get_value
+    tz=getattr(series.dtype, 'tz', None))
+  File "pandas/_libs/index.pyx", line 106, in pandas._libs.index.IndexEngine.get_value
+  File "pandas/_libs/index.pyx", line 114, in pandas._libs.index.IndexEngine.get_value
+  File "pandas/_libs/index.pyx", line 162, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/hashtable_class_helper.pxi", line 1492, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas/_libs/hashtable_class_helper.pxi", line 1500, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'player_got_hit'
