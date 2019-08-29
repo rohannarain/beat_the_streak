@@ -266,3 +266,21 @@ Traceback (most recent call last):
   File "pandas/_libs/hashtable_class_helper.pxi", line 1492, in pandas._libs.hashtable.PyObjectHashTable.get_item
   File "pandas/_libs/hashtable_class_helper.pxi", line 1500, in pandas._libs.hashtable.PyObjectHashTable.get_item
 KeyError: 'player_got_hit'
+[master 68bfd54] predictions 08/27/19
+ Committer: Rohan Narain <rohannarain@rohans-mbp-3.attlocal.net>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
+
+    git config --global --edit
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 3 files changed, 65 insertions(+), 14 deletions(-)
+ rewrite data/predictions/predictions_08_27_2019.csv (95%)
+fatal: could not read Username for 'https://github.com': Device not configured
+  0%|          | 0/15 [00:00<?, ?it/s]  7%|6         | 1/15 [01:27<20:19, 87.13s/it] 13%|#3        | 2/15 [02:33<17:30, 80.78s/it] 20%|##        | 3/15 [03:41<15:23, 76.94s/it] 27%|##6       | 4/15 [04:55<13:57, 76.18s/it]
