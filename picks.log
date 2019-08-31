@@ -376,3 +376,95 @@ After doing this, you may fix the identity used for this commit with:
 
  1 file changed, 77 insertions(+), 1 deletion(-)
 fatal: could not read Username for 'https://github.com': Device not configured
+  0%|          | 0/15 [00:00<?, ?it/s]  7%|6         | 1/15 [01:27<20:19, 87.12s/it] 13%|#3        | 2/15 [02:46<18:23, 84.90s/it] 20%|##        | 3/15 [03:56<16:04, 80.35s/it] 27%|##6       | 4/15 [05:05<14:07, 77.03s/it]Traceback (most recent call last):
+  File "/Users/rohannarain/anaconda3/lib/python3.6/site-packages/requests/packages/urllib3/connectionpool.py", line 594, in urlopen
+    chunked=chunked)
+  File "/Users/rohannarain/anaconda3/lib/python3.6/site-packages/requests/packages/urllib3/connectionpool.py", line 391, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 2, in raise_from
+  File "/Users/rohannarain/anaconda3/lib/python3.6/site-packages/requests/packages/urllib3/connectionpool.py", line 387, in _make_request
+    httplib_response = conn.getresponse()
+  File "/Users/rohannarain/anaconda3/lib/python3.6/http/client.py", line 1331, in getresponse
+    response.begin()
+  File "/Users/rohannarain/anaconda3/lib/python3.6/http/client.py", line 297, in begin
+    version, status, reason = self._read_status()
+  File "/Users/rohannarain/anaconda3/lib/python3.6/http/client.py", line 258, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "/Users/rohannarain/anaconda3/lib/python3.6/socket.py", line 586, in readinto
+    return self._sock.recv_into(b)
+  File "/Users/rohannarain/anaconda3/lib/python3.6/site-packages/requests/packages/urllib3/contrib/pyopenssl.py", line 261, in recv_into
+    raise SocketError(str(e))
+OSError: (50, 'ENETDOWN')
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/rohannarain/anaconda3/lib/python3.6/site-packages/requests/adapters.py", line 423, in send
+    timeout=timeout
+  File "/Users/rohannarain/anaconda3/lib/python3.6/site-packages/requests/packages/urllib3/connectionpool.py", line 643, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/Users/rohannarain/anaconda3/lib/python3.6/site-packages/requests/packages/urllib3/util/retry.py", line 334, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+  File "/Users/rohannarain/anaconda3/lib/python3.6/site-packages/requests/packages/urllib3/packages/six.py", line 685, in reraise
+    raise value.with_traceback(tb)
+  File "/Users/rohannarain/anaconda3/lib/python3.6/site-packages/requests/packages/urllib3/connectionpool.py", line 594, in urlopen
+    chunked=chunked)
+  File "/Users/rohannarain/anaconda3/lib/python3.6/site-packages/requests/packages/urllib3/connectionpool.py", line 391, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 2, in raise_from
+  File "/Users/rohannarain/anaconda3/lib/python3.6/site-packages/requests/packages/urllib3/connectionpool.py", line 387, in _make_request
+    httplib_response = conn.getresponse()
+  File "/Users/rohannarain/anaconda3/lib/python3.6/http/client.py", line 1331, in getresponse
+    response.begin()
+  File "/Users/rohannarain/anaconda3/lib/python3.6/http/client.py", line 297, in begin
+    version, status, reason = self._read_status()
+  File "/Users/rohannarain/anaconda3/lib/python3.6/http/client.py", line 258, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "/Users/rohannarain/anaconda3/lib/python3.6/socket.py", line 586, in readinto
+    return self._sock.recv_into(b)
+  File "/Users/rohannarain/anaconda3/lib/python3.6/site-packages/requests/packages/urllib3/contrib/pyopenssl.py", line 261, in recv_into
+    raise SocketError(str(e))
+requests.packages.urllib3.exceptions.ProtocolError: ('Connection aborted.', OSError("(50, 'ENETDOWN')",))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "retrieve_data.py", line 472, in <module>
+    generate_hits_data()
+  File "retrieve_data.py", line 391, in generate_hits_data
+    player_id = get_player_id_from_name(player)
+  File "retrieve_data.py", line 50, in get_player_id_from_name
+    return statsapi.lookup_player(player_name)[0]['id']
+  File "/Users/rohannarain/anaconda3/lib/python3.6/site-packages/statsapi/__init__.py", line 933, in lookup_player
+    r = get('sports_players',params)
+  File "/Users/rohannarain/anaconda3/lib/python3.6/site-packages/statsapi/__init__.py", line 1421, in get
+    r = requests.get(url)
+  File "/Users/rohannarain/anaconda3/lib/python3.6/site-packages/requests/api.py", line 70, in get
+    return request('get', url, params=params, **kwargs)
+  File "/Users/rohannarain/anaconda3/lib/python3.6/site-packages/requests/api.py", line 56, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/Users/rohannarain/anaconda3/lib/python3.6/site-packages/requests/sessions.py", line 488, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/Users/rohannarain/anaconda3/lib/python3.6/site-packages/requests/sessions.py", line 609, in send
+    r = adapter.send(request, **kwargs)
+  File "/Users/rohannarain/anaconda3/lib/python3.6/site-packages/requests/adapters.py", line 473, in send
+    raise ConnectionError(err, request=request)
+requests.exceptions.ConnectionError: ('Connection aborted.', OSError("(50, 'ENETDOWN')",))
+
+Getting data...
+Traceback (most recent call last):
+  File "train_model.py", line 37, in <module>
+    hits_test = pd.read_csv("data/player_stats/player_stats_{}.csv".format(today))
+  File "/Users/rohannarain/anaconda3/lib/python3.6/site-packages/pandas/io/parsers.py", line 678, in parser_f
+    return _read(filepath_or_buffer, kwds)
+  File "/Users/rohannarain/anaconda3/lib/python3.6/site-packages/pandas/io/parsers.py", line 440, in _read
+    parser = TextFileReader(filepath_or_buffer, **kwds)
+  File "/Users/rohannarain/anaconda3/lib/python3.6/site-packages/pandas/io/parsers.py", line 787, in __init__
+    self._make_engine(self.engine)
+  File "/Users/rohannarain/anaconda3/lib/python3.6/site-packages/pandas/io/parsers.py", line 1014, in _make_engine
+    self._engine = CParserWrapper(self.f, **self.options)
+  File "/Users/rohannarain/anaconda3/lib/python3.6/site-packages/pandas/io/parsers.py", line 1708, in __init__
+    self._reader = parsers.TextReader(src, **kwds)
+  File "pandas/_libs/parsers.pyx", line 384, in pandas._libs.parsers.TextReader.__cinit__
+  File "pandas/_libs/parsers.pyx", line 695, in pandas._libs.parsers.TextReader._setup_parser_source
+FileNotFoundError: File b'data/player_stats/player_stats_08_31_2019.csv' does not exist
