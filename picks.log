@@ -740,3 +740,59 @@ fatal: could not read Username for 'https://github.com': Device not configured
 ./picks.sh: line 2:  2001 Terminated: 15          /Users/rohannarain/anaconda3/bin/python retrieve_data.py
 2019-09-11 17:43:01.477 python[7320:1470809] _LSScheduleNotificationFunction() failed on line 649 in function id scheduleApplicationNotification(LSNotificationCode, NSWorkspaceNotificationCenter *)
 2019-09-11 17:43:01.478 python[7319:1470820] _LSScheduleNotificationFunction() failed on line 649 in function id scheduleApplicationNotification(LSNotificationCode, NSWorkspaceNotificationCenter *)
+  0%|          | 0/15 [00:00<?, ?it/s]  7%|6         | 1/15 [08:02<1:52:36, 482.58s/it] 13%|#3        | 2/15 [10:04<1:21:08, 374.47s/it] 20%|##        | 3/15 [12:18<1:00:27, 302.28s/it] 27%|##6       | 4/15 [14:39<46:34, 254.00s/it]   33%|###3      | 5/15 [16:40<35:39, 213.99s/it] 40%|####      | 6/15 [19:43<30:43, 204.80s/it] 47%|####6     | 7/15 [22:05<24:46, 185.84s/it] 53%|#####3    | 8/15 [24:20<19:53, 170.45s/it] 60%|######    | 9/15 [26:43<16:14, 162.40s/it] 67%|######6   | 10/15 [28:47<12:34, 150.84s/it] 73%|#######3  | 11/15 [31:03<09:45, 146.25s/it] 80%|########  | 12/15 [33:03<06:55, 138.35s/it] 87%|########6 | 13/15 [35:08<04:28, 134.47s/it] 93%|#########3| 14/15 [36:57<02:06, 126.80s/it]100%|##########| 15/15 [38:33<00:00, 117.68s/it]
+  0%|          | 0/14 [00:00<?, ?it/s]  7%|7         | 1/14 [02:08<27:54, 128.80s/it] 14%|#4        | 2/14 [04:30<26:33, 132.81s/it] 21%|##1       | 3/14 [06:20<23:04, 125.86s/it] 29%|##8       | 4/14 [08:31<21:14, 127.41s/it] 36%|###5      | 5/14 [10:24<18:28, 123.15s/it] 43%|####2     | 6/14 [12:59<17:39, 132.46s/it] 50%|#####     | 7/14 [14:59<15:02, 128.94s/it] 57%|#####7    | 8/14 [17:07<12:50, 128.46s/it] 64%|######4   | 9/14 [19:14<10:41, 128.23s/it] 71%|#######1  | 10/14 [20:56<08:01, 120.35s/it] 79%|#######8  | 11/14 [23:18<06:20, 126.67s/it] 86%|########5 | 12/14 [25:15<04:07, 123.75s/it] 93%|#########2| 13/14 [27:06<01:59, 119.96s/it]100%|##########| 14/14 [29:03<00:00, 119.08s/it]
+Finished generating file: data/player_stats/player_stats_09_12_2019.csv
+Finished generating file: data/player_stats/player_stats_09_13_2019.csv
+Results for 09/12/2019 generated
+Getting data...
+Data retrieved.
+Training logistic regression...
+Finished training!
+Finding best hyperparameters for AdaBoost...
+Training AdaBoost...
+Finished training!
+Finding best hyperparameters for random forests...
+Training random forests...
+Finished training!
+Model performance summary on validation set: 
+             Model  Accuracy  Precision    Recall  F1 Score
+0          Logreg  0.826230   0.851613  0.613953  0.713514
+1  Random Forests  0.824590   0.817647  0.646512  0.722078
+2        AdaBoost  0.806557   0.751295  0.674419  0.710784
+Predictions for today: 
+                Name                  Team  Hit Probability
+0      Nick Martini      San Diego Padres         0.865330
+1      Yoan Moncada     Chicago White Sox         0.814358
+2       Trea Turner  Washington Nationals         0.810344
+3        Joey Votto       Cincinnati Reds         0.806726
+4      Tim Anderson     Chicago White Sox         0.803957
+5    Miguel Cabrera        Detroit Tigers         0.802054
+6    David Fletcher    Los Angeles Angels         0.801355
+7      David Freese   Los Angeles Dodgers         0.795485
+8  Christian Yelich     Milwaukee Brewers         0.793417
+9      Miguel Rojas         Miami Marlins         0.787149
+Traceback (most recent call last):
+  File "/Users/rohannarain/anaconda3/lib/python3.6/site-packages/pandas/core/indexes/base.py", line 3124, in get_value
+    return libindex.get_value_box(s, key)
+  File "pandas/_libs/index.pyx", line 55, in pandas._libs.index.get_value_box
+  File "pandas/_libs/index.pyx", line 63, in pandas._libs.index.get_value_box
+TypeError: 'str' object cannot be interpreted as an integer
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "train_model.py", line 134, in <module>
+    latest_top10_acc = float(predictions.iloc[-1]['player_got_hit'])
+  File "/Users/rohannarain/anaconda3/lib/python3.6/site-packages/pandas/core/series.py", line 767, in __getitem__
+    result = self.index.get_value(self, key)
+  File "/Users/rohannarain/anaconda3/lib/python3.6/site-packages/pandas/core/indexes/base.py", line 3132, in get_value
+    raise e1
+  File "/Users/rohannarain/anaconda3/lib/python3.6/site-packages/pandas/core/indexes/base.py", line 3118, in get_value
+    tz=getattr(series.dtype, 'tz', None))
+  File "pandas/_libs/index.pyx", line 106, in pandas._libs.index.IndexEngine.get_value
+  File "pandas/_libs/index.pyx", line 114, in pandas._libs.index.IndexEngine.get_value
+  File "pandas/_libs/index.pyx", line 162, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/hashtable_class_helper.pxi", line 1492, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas/_libs/hashtable_class_helper.pxi", line 1500, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'player_got_hit'
